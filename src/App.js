@@ -3,9 +3,18 @@ import DeckGL from '@deck.gl/react'
 import {TerrainLayer, Tile3DLayer} from '@deck.gl/geo-layers'
 import {Tiles3DLoader} from '@loaders.gl/3d-tiles'
 import {FirstPersonView} from '@deck.gl/core'
+import distance from '@turf/distance';
+import {point, lineString} from '@turf/helpers';
 import './App.css';
+
 const { geolonia } = window
-const marker = new geolonia.Marker({
+
+const initialMarker = new geolonia.Marker({
+  color: "#FF0000",
+  draggable: true,
+})
+
+const guessedMarker = new geolonia.Marker({
   color: "#FF0000",
   draggable: true
 })
@@ -13,6 +22,7 @@ const marker = new geolonia.Marker({
 function App() {
   const mapNode = useRef(null)
   const mapDiv = useRef(null)
+  const scoreDiv = useRef(null)
   const initialLngLat = {lng: 139.7673068, lat: 35.6809591}
   const [guessedLngLat, setGuessedLngLat] = useState(null);
   
@@ -31,7 +41,7 @@ function App() {
     })
 
     mapNode.current.on('click', event => {
-      marker
+      guessedMarker
         .setLngLat(event.lngLat)
         .addTo(mapNode.current);
       
@@ -39,6 +49,51 @@ function App() {
     })
 
   }, [mapDiv, geolonia])
+
+  const calculateDistance = (initial, guessed) => {
+
+    if (!initial || !guessed) {
+      return false
+    }
+
+    const fromPoints = [guessed.lng, guessed.lat]
+    const toPoints = [initial.lng, initial.lat]
+
+    const from = point(fromPoints);
+    const to = point(toPoints);
+    const actualDistance = distance(from, to) * 1000
+
+    scoreDiv.current.innerHTML = `${Math.round(actualDistance)}m`
+
+    initialMarker
+      .setLngLat(initial)
+      .addTo(mapNode.current);
+
+    mapNode.current.addSource('line-marker', {
+      'type': 'geojson',
+      'data': {
+        'type': 'Feature',
+        'properties': {},
+        'geometry': {
+          'type': 'LineString',
+          'coordinates': [fromPoints, toPoints]
+          }
+        }
+    });
+
+    mapNode.current.addLayer({
+        'id': 'line',
+        'type': 'line',
+        'source': 'line-marker',
+        'layout': {
+        },
+        'paint': {
+          'line-color': '#000000',
+          'line-width': 5
+        }
+    });
+
+  }
 
   const view = new FirstPersonView({
     controller: {
@@ -81,7 +136,16 @@ function App() {
         ref={mapDiv}
         id="mini-map"
       />
-      <button id="guess-btn">Guess</button>
+      <h2
+        ref={scoreDiv}
+        id="score"
+      ></h2>
+      <button
+        onClick={()=> calculateDistance(initialLngLat, guessedLngLat)}
+        id="guess-btn"
+      >
+        Guess
+      </button>
       <DeckGL
         views={view}
         mapStyle={'geolonia/gsi'}

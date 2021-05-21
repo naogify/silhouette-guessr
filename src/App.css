@@ -42,3 +42,13 @@ body {
   width: 30vw;
   height: 40px;
 }
+
+#score {
+  position: absolute;
+  z-index: 3;
+  right: 10px;
+  bottom: 50px;
+  margin: 0;
+  padding: 10px;
+  background-color: #fff;
+}
