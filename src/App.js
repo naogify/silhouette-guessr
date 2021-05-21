@@ -4,28 +4,41 @@ import {TerrainLayer, Tile3DLayer} from '@deck.gl/geo-layers'
 import {Tiles3DLoader} from '@loaders.gl/3d-tiles'
 import {FirstPersonView} from '@deck.gl/core'
 import './App.css';
+const { geolonia } = window
+const marker = new geolonia.Marker({
+  color: "#FF0000",
+  draggable: true
+})
 
 function App() {
+  const mapNode = useRef(null)
   const mapDiv = useRef(null)
-  const longLat = {lon: 139.7673068, lat: 35.6809591}
-
-  const { geolonia } = window
+  const longLat = {lng: 139.7673068, lat: 35.6809591}
 
   useLayoutEffect(() => {
 
     if (!mapDiv.current) { return }
+    if (mapNode.current !== null) { return }
 
-    new geolonia.Map(
+    mapNode.current = new geolonia.Map(
       {
         container: mapDiv.current,
         style: 'geolonia/basic',
         interactive: true,
-        center: [longLat.lon, longLat.lat],
+        center: [longLat.lng, longLat.lat],
         zoom: 14,
         pitch: 0,
       })
 
+    mapNode.current.on('click', event => {
+      marker
+        .setLngLat(event.lngLat)
+        .addTo(mapNode.current);
+    })
+
   }, [mapDiv, geolonia])
+
+  console.log(mapNode.current)
 
   const view = new FirstPersonView({
     controller: {
@@ -68,11 +81,12 @@ function App() {
         ref={mapDiv}
         id="mini-map"
       />
+      <button id="guess-btn">Guess</button>
       <DeckGL
         views={view}
         mapStyle={'geolonia/gsi'}
         initialViewState={{
-          longitude: longLat.lon,
+          longitude: longLat.lng,
           latitude: longLat.lat,
           zoom: 14,
           pitch: 0,
