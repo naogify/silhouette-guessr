@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect } from "react"
+import React, { useRef, useLayoutEffect, useState } from "react"
 import DeckGL from '@deck.gl/react'
 import {TerrainLayer, Tile3DLayer} from '@deck.gl/geo-layers'
 import {Tiles3DLoader} from '@loaders.gl/3d-tiles'
@@ -13,32 +13,32 @@ const marker = new geolonia.Marker({
 function App() {
   const mapNode = useRef(null)
   const mapDiv = useRef(null)
-  const longLat = {lng: 139.7673068, lat: 35.6809591}
-
+  const initialLngLat = {lng: 139.7673068, lat: 35.6809591}
+  const [guessedLngLat, setGuessedLngLat] = useState(null);
+  
   useLayoutEffect(() => {
 
     if (!mapDiv.current) { return }
     if (mapNode.current !== null) { return }
 
-    mapNode.current = new geolonia.Map(
-      {
-        container: mapDiv.current,
-        style: 'geolonia/basic',
-        interactive: true,
-        center: [longLat.lng, longLat.lat],
-        zoom: 14,
-        pitch: 0,
-      })
+    mapNode.current = new geolonia.Map({
+      container: mapDiv.current,
+      style: 'geolonia/basic',
+      interactive: true,
+      center: [initialLngLat.lng, initialLngLat.lat],
+      zoom: 14,
+      pitch: 0,
+    })
 
     mapNode.current.on('click', event => {
       marker
         .setLngLat(event.lngLat)
         .addTo(mapNode.current);
+      
+      setGuessedLngLat(event.lngLat)
     })
 
   }, [mapDiv, geolonia])
-
-  console.log(mapNode.current)
 
   const view = new FirstPersonView({
     controller: {
@@ -86,8 +86,8 @@ function App() {
         views={view}
         mapStyle={'geolonia/gsi'}
         initialViewState={{
-          longitude: longLat.lng,
-          latitude: longLat.lat,
+          longitude: initialLngLat.lng,
+          latitude: initialLngLat.lat,
           zoom: 14,
           pitch: 0,
           bearing: 0,
