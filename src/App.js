@@ -1,3 +1,4 @@
+import React, { useRef, useLayoutEffect } from "react"
 import DeckGL from '@deck.gl/react'
 import {TerrainLayer, Tile3DLayer} from '@deck.gl/geo-layers'
 import {Tiles3DLoader} from '@loaders.gl/3d-tiles'
@@ -5,22 +6,26 @@ import {FirstPersonView} from '@deck.gl/core'
 import './App.css';
 
 function App() {
-
+  const mapDiv = useRef(null)
   const longLat = {lon: 139.7673068, lat: 35.6809591}
 
   const { geolonia } = window
-  new geolonia.Map('#mini-map', {
-    initialViewState: {
-      longitude: longLat.lon,
-      latitude: longLat.lat,
-      zoom: 14,
-      pitch: 0,
-      bearing: 0,
-      maxPitch: 0,
-      minPitch: 0,
-      position: [0, 0, 70]
-    }
-  })
+
+  useLayoutEffect(() => {
+
+    if (!mapDiv.current) { return }
+
+    new geolonia.Map(
+      {
+        container: mapDiv.current,
+        style: 'geolonia/basic',
+        interactive: true,
+        center: [longLat.lon, longLat.lat],
+        zoom: 14,
+        pitch: 0,
+      })
+
+  }, [mapDiv, geolonia])
 
   const view = new FirstPersonView({
     controller: {
@@ -58,22 +63,28 @@ function App() {
   })
 
   return (
-    <DeckGL
-      views={view}
-      mapStyle={'geolonia/midnight'}
-      initialViewState={{
-        longitude: longLat.lon,
-        latitude: longLat.lat,
-        zoom: 14,
-        pitch: 0,
-        bearing: 0,
-        maxPitch: 0,
-        minPitch: 0,
-        position: [0, 0, 70]
-      }}
-      controller={true}
-      layers={[terrainLayer, tile3DLayer]}
-    />
+    <>
+      <div
+        ref={mapDiv}
+        id="mini-map"
+      />
+      <DeckGL
+        views={view}
+        mapStyle={'geolonia/gsi'}
+        initialViewState={{
+          longitude: longLat.lon,
+          latitude: longLat.lat,
+          zoom: 14,
+          pitch: 0,
+          bearing: 0,
+          maxPitch: 0,
+          minPitch: 0,
+          position: [0, 0, 70]
+        }}
+        controller={true}
+        layers={[terrainLayer, tile3DLayer]}
+      />
+    </>
   )
 }
 
