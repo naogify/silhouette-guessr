@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect, useState } from "react"
+import React, { useRef, useLayoutEffect, useState, useMemo } from "react"
 import DeckGL from '@deck.gl/react'
 import {TerrainLayer, Tile3DLayer} from '@deck.gl/geo-layers'
 import {Tiles3DLoader} from '@loaders.gl/3d-tiles'
@@ -42,7 +42,7 @@ function App() {
     {lng: 139.7303179953378, lat: 35.676509652592905},
     {lng: 139.75763097559113, lat: 35.665074208904436},
   ]
-  const initialLngLat = initialLngLats[getRandomInt(14)]
+  const initialLngLat = useMemo(() => initialLngLats[getRandomInt(14)], [])
   const [guessedLngLat, setGuessedLngLat] = useState(null);
   
   useLayoutEffect(() => {
@@ -147,10 +147,7 @@ function App() {
     data: 'https://raw.githubusercontent.com/naogify/silhouette-gusser/main/public/tile3d/tileset.json',
     loader: Tiles3DLoader,
     pickable: true,
-    opacity: 0.8,
-    onClick: (info, event)=>{
-      console.log(info)
-    }
+    opacity: 0.8
   })
 
   return (
