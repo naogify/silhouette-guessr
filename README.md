@@ -5,7 +5,7 @@
 ## 開発者向け
 
 ```
-$ git@github.com:naogify/plateau-gusser.git && cd plateau-gusser
+$ git@github.com:naogify/silhouette-gusser.git && cd silhouette-gusser
 $ npm install
 $ npm start
 ```
