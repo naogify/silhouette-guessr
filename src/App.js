@@ -4,7 +4,7 @@ import {TerrainLayer, Tile3DLayer} from '@deck.gl/geo-layers'
 import {Tiles3DLoader} from '@loaders.gl/3d-tiles'
 import {FirstPersonView} from '@deck.gl/core'
 import distance from '@turf/distance';
-import {point, lineString} from '@turf/helpers';
+import {point} from '@turf/helpers';
 import './App.css';
 
 const { geolonia } = window
@@ -22,8 +22,8 @@ const guessedMarker = new geolonia.Marker({
 function App() {
   const mapNode = useRef(null)
   const mapDiv = useRef(null)
-  const scoreDiv = useRef(null)
-  const initialLngLat = {lng: 139.7673068, lat: 35.6809591}
+  const scoreDiv = useRef(null)  
+  const initialLngLat = {lng: 139.746247, lat: 35.659103}
   const [guessedLngLat, setGuessedLngLat] = useState(null);
   
   useLayoutEffect(() => {
@@ -48,7 +48,7 @@ function App() {
       setGuessedLngLat(event.lngLat)
     })
 
-  }, [mapDiv, geolonia])
+  }, [mapDiv, initialLngLat.lng, initialLngLat.lat])
 
   const calculateDistance = (initial, guessed) => {
 
@@ -124,7 +124,7 @@ function App() {
   const tile3DLayer = new Tile3DLayer({
     id: 'tile-3d-layer',
     pointSize: 1,
-    data: 'https://raw.githubusercontent.com/naogify/deckgl-3d-tiles/main/tileset.json',
+    data: 'https://raw.githubusercontent.com/naogify/silhouette-gusser/main/tile3d/tileset.json',
     loader: Tiles3DLoader,
     pickable: true,
     opacity: 0.8
@@ -136,10 +136,10 @@ function App() {
         ref={mapDiv}
         id="mini-map"
       />
-      <h2
+      <div
         ref={scoreDiv}
         id="score"
-      ></h2>
+      ></div>
       <button
         onClick={()=> calculateDistance(initialLngLat, guessedLngLat)}
         id="guess-btn"
@@ -157,7 +157,7 @@ function App() {
           bearing: 0,
           maxPitch: 0,
           minPitch: 0,
-          position: [0, 0, 70]
+          position: [0, 0, 100]
         }}
         controller={true}
         layers={[terrainLayer, tile3DLayer]}
