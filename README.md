@@ -1,6 +1,6 @@
 # Silhouette Guessr 
 
-Silhouette Gusser（シルエットゲッサー）は、[PLATEAU](https://www.mlit.go.jp/plateau/) のオープンデータを使った、位置情報ゲームです。
+Silhouette Guessr（シルエットゲッサー）は、[PLATEAU](https://www.mlit.go.jp/plateau/) のオープンデータを使った、位置情報ゲームです。
 
 ## 開発者向け
 
