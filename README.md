@@ -1,11 +1,11 @@
-# Silhouette Gusser 
+# Silhouette Guessr 
 
 Silhouette Gusser（シルエットゲッサー）は、[PLATEAU](https://www.mlit.go.jp/plateau/) のオープンデータを使った、位置情報ゲームです。
 
 ## 開発者向け
 
 ```
-$ git@github.com:naogify/silhouette-gusser.git && cd silhouette-gusser
+$ git@github.com:naogify/silhouette-guessr.git && cd silhouette-guessr
 $ npm install
 $ npm start
 ```
