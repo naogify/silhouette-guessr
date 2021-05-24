@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/silhouette-gusser/static/css/main.fcea5a43.chunk.css",
+    "main.css": "/silhouette-gusser/static/css/main.4b23b2f1.chunk.css",
     "main.js": "/silhouette-gusser/static/js/main.9e70614d.chunk.js",
     "main.js.map": "/silhouette-gusser/static/js/main.9e70614d.chunk.js.map",
     "runtime-main.js": "/silhouette-gusser/static/js/runtime-main.aa76f0d6.js",
@@ -12,14 +12,14 @@
     "static/js/3.6c758353.chunk.js.map": "/silhouette-gusser/static/js/3.6c758353.chunk.js.map",
     "index.html": "/silhouette-gusser/index.html",
     "static/css/2.4c97ca4f.chunk.css.map": "/silhouette-gusser/static/css/2.4c97ca4f.chunk.css.map",
-    "static/css/main.fcea5a43.chunk.css.map": "/silhouette-gusser/static/css/main.fcea5a43.chunk.css.map",
+    "static/css/main.4b23b2f1.chunk.css.map": "/silhouette-gusser/static/css/main.4b23b2f1.chunk.css.map",
     "static/js/2.84fce08b.chunk.js.LICENSE.txt": "/silhouette-gusser/static/js/2.84fce08b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.aa76f0d6.js",
     "static/css/2.4c97ca4f.chunk.css",
     "static/js/2.84fce08b.chunk.js",
-    "static/css/main.fcea5a43.chunk.css",
+    "static/css/main.4b23b2f1.chunk.css",
     "static/js/main.9e70614d.chunk.js"
   ]
 }
