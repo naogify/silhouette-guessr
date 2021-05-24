@@ -5,7 +5,9 @@ import {Tiles3DLoader} from '@loaders.gl/3d-tiles'
 import {FirstPersonView} from '@deck.gl/core'
 import distance from '@turf/distance';
 import {point} from '@turf/helpers';
+import Button from 'react-bootstrap/Button';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const { geolonia } = window
 
@@ -160,12 +162,11 @@ function App() {
         ref={scoreDiv}
         id="score"
       ></div>
-      <button
-        onClick={()=> calculateDistance(initialLngLat, guessedLngLat)}
+      <Button
         id="guess-btn"
-      >
-        Guess
-      </button>
+        onClick={()=> calculateDistance(initialLngLat, guessedLngLat)}
+        variant="primary"
+      >Guess</Button>
       <DeckGL
         views={view}
         mapStyle={'geolonia/gsi'}
