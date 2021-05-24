@@ -148,7 +148,7 @@ function App() {
   const tile3DLayer = new Tile3DLayer({
     id: 'tile-3d-layer',
     pointSize: 1,
-    data: 'https://raw.githubusercontent.com/naogify/silhouette-gusser/main/public/tile3d/tileset.json',
+    data: 'https://raw.githubusercontent.com/naogify/silhouette-guessr/main/public/tile3d/tileset.json',
     loader: Tiles3DLoader,
     pickable: true,
     opacity: 0.8

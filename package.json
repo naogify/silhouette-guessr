@@ -1,8 +1,8 @@
 {
-  "name": "silhouette-gusser",
+  "name": "silhouette-guessr",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://naogify.github.io/silhouette-gusser",
+  "homepage": "https://naogify.github.io/silhouette-guessr",
   "dependencies": {
     "@deck.gl/core": "^8.4.16",
     "@deck.gl/geo-layers": "^8.4.16",
