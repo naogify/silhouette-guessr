@@ -137,7 +137,7 @@ function App() {
       bScaler: 0.1,
       offset: -9965
     },
-    elevationData: 'https://tileserver-dev.geolonia.com/gsi-dem/tiles/{z}/{x}/{y}.png',
+    elevationData: 'https://tileserver-dev.geolonia.com/gsi-dem/tiles/{z}/{x}/{y}.png?v=1.0.0%2B497d8d48d54c79041032ae681e92e691&key=YOUR-API-KEY',
     texture: 'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg',
     wireframe: false,
     color: [255, 255, 255],
