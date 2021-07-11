@@ -119,7 +119,7 @@ function App() {
 
   const view = new FirstPersonView({
     // fovy: 100,
-    far:10000,
+    far:3000,
     controller: {
       keyboard: {
         moveSpeed: 100,
@@ -137,21 +137,31 @@ function App() {
       bScaler: 0.1,
       offset: -9965
     },
-    elevationData: 'https://tileserver-dev.geolonia.com/gsi-dem/tiles/{z}/{x}/{y}.png?v=1.0.0%2B497d8d48d54c79041032ae681e92e691&key=YOUR-API-KEY',
-    texture: 'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg',
+    elevationData: 'https://tileserver.geolonia.com/gsi-dem/tiles/{z}/{x}/{y}.png?v=1.0.0%2B497d8d48d54c79041032ae681e92e691&key=YOUR-API-KEY',
+    // texture: 'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg',
     wireframe: false,
-    color: [255, 255, 255],
+    material: false,
+    color: [211,211,211],
     pickable: false,
-    opacity: 0.5
   });
 
   const tile3DLayer = new Tile3DLayer({
     id: 'tile-3d-layer',
-    pointSize: 1,
     data: 'https://raw.githubusercontent.com/naogify/silhouette-guessr/main/public/tile3d/tileset.json',
     loader: Tiles3DLoader,
-    pickable: true,
-    opacity: 0.8
+    loadOptions: {
+      tileset: {
+        throttleRequests: true,
+        maxRequests: 500,
+        maximumMemoryUsage: 600,
+        viewDistanceScale: 0.5,
+        updateTransforms: false,
+        loadTiles: false
+      },
+    },
+    color: [255,0,0],
+    pickable: false,
+    opacity: 0.4
   })
 
   return (
@@ -175,11 +185,11 @@ function App() {
         initialViewState={{
           longitude: initialLngLat.lng,
           latitude: initialLngLat.lat,
-          pitch: 0,
+          pitch: 50,
           bearing: 0,
-          maxPitch: 0,
+          maxPitch: 50,
           minPitch: 0,
-          position: [0, 0, 100]
+          position: [0, 100, 500]
         }}
         controller={true}
         layers={[terrainLayer, tile3DLayer]}
