@@ -1,53 +1,48 @@
-import React, { useRef, useLayoutEffect, useState, useMemo } from "react"
+import React, { useRef, useLayoutEffect, useState, useMemo, useCallback } from "react"
 import DeckGL from '@deck.gl/react'
 import {TerrainLayer, Tile3DLayer} from '@deck.gl/geo-layers'
 import {Tiles3DLoader} from '@loaders.gl/3d-tiles'
-import {FirstPersonView} from '@deck.gl/core'
-import distance from '@turf/distance';
-import {point} from '@turf/helpers';
+import {FirstPersonView, FlyToInterpolator} from '@deck.gl/core'
+import {guessedMarker, getRandomInt, initialLngLats, calculateDistance} from './util'
 import Button from 'react-bootstrap/Button';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const { geolonia } = window
 
-const initialMarker = new geolonia.Marker({
-  color: "#FF0000",
-  draggable: true,
-})
-
-const guessedMarker = new geolonia.Marker({
-  color: "#FF0000",
-  draggable: true
-})
-
-const getRandomInt = (max) => {
-  return Math.floor(Math.random() * max);
-}
-
 function App() {
   const mapNode = useRef(null)
   const mapDiv = useRef(null)
   const scoreDiv = useRef(null)  
+  const [guessedLngLat, setGuessedLngLat] = useState(null);
+
   const initialLngLat = useMemo(() => { 
-    const initialLngLats = [
-      {lng: 139.746247, lat: 35.659103},
-      {lng: 139.775039823498, lat: 35.62688839051935},
-      {lng: 139.7425465928838, lat: 35.62901450284541},
-      {lng: 139.73098887729316, lat: 35.634774933759935},
-      {lng: 139.73084512638385, lat: 35.64045446313923},
-      {lng: 139.73081620816902, lat: 35.64998949295825},
-      {lng: 139.726025422902, lat: 35.652420489771295},
-      {lng: 139.7410097090811, lat: 35.65267872518089},
-      {lng: 139.75412546592008, lat: 35.665835434143766},
-      {lng: 139.73210944808986, lat: 35.67121154298727},
-      {lng: 139.7148656884602, lat: 35.66547356765915},
-      {lng: 139.7303179953378, lat: 35.676509652592905},
-      {lng: 139.75763097559113, lat: 35.665074208904436},
-    ]
     return initialLngLats[getRandomInt(14)] 
   }, [])
-  const [guessedLngLat, setGuessedLngLat] = useState(null);
+  
+  const [initialViewState, setInitialViewState] = useState({
+    longitude: initialLngLat.lng,
+    latitude: initialLngLat.lat,
+    zoom: 11,
+    pitch: 45,
+    bearing: 0,
+    maxPitch: 50,
+    minPitch: 0,
+    position: [0, 100, 500]
+  });
+
+  const goToStart = useCallback(() => {
+
+    setInitialViewState({
+      longitude: initialLngLat.lng,
+      latitude: initialLngLat.lat,
+      zoom: 11,
+      pitch: 45,
+      bearing: 0,
+      position: [0, 100, 500],
+      transitionInterpolator: new FlyToInterpolator()
+    })
+  }, [initialLngLat]);
   
   useLayoutEffect(() => {
 
@@ -59,7 +54,7 @@ function App() {
       style: 'geolonia/basic',
       interactive: true,
       center: [initialLngLat.lng, initialLngLat.lat],
-      zoom: 10,
+      zoom: 11.5,
       pitch: 0,
     })
 
@@ -73,58 +68,12 @@ function App() {
 
   }, [mapDiv, initialLngLat.lng, initialLngLat.lat])
 
-  const calculateDistance = (initial, guessed) => {
-
-    if (!initial || !guessed) {
-      return false
-    }
-
-    const fromPoints = [guessed.lng, guessed.lat]
-    const toPoints = [initial.lng, initial.lat]
-
-    const from = point(fromPoints);
-    const to = point(toPoints);
-    const actualDistance = distance(from, to) * 1000
-
-    scoreDiv.current.innerHTML = `${Math.round(actualDistance)}m`
-
-    initialMarker
-      .setLngLat(initial)
-      .addTo(mapNode.current);
-
-    mapNode.current.addSource('line-marker', {
-      'type': 'geojson',
-      'data': {
-        'type': 'Feature',
-        'properties': {},
-        'geometry': {
-          'type': 'LineString',
-          'coordinates': [fromPoints, toPoints]
-          }
-        }
-    });
-
-    mapNode.current.addLayer({
-        'id': 'line',
-        'type': 'line',
-        'source': 'line-marker',
-        'layout': {
-        },
-        'paint': {
-          'line-color': '#000000',
-          'line-width': 5
-        }
-    });
-  }
-
   const view = new FirstPersonView({
-    // fovy: 100,
-    far:10000,
+    far:3000,
     controller: {
       keyboard: {
-        moveSpeed: 100,
+        moveSpeed: 10000,
       }, 
-      inertia: 100
   }});
 
   const terrainLayer = new TerrainLayer({
@@ -137,21 +86,32 @@ function App() {
       bScaler: 0.1,
       offset: -9965
     },
-    elevationData: 'https://tileserver-dev.geolonia.com/gsi-dem/tiles/{z}/{x}/{y}.png?v=1.0.0%2B497d8d48d54c79041032ae681e92e691&key=YOUR-API-KEY',
+    elevationData: 'https://tileserver.geolonia.com/gsi-dem/tiles/{z}/{x}/{y}.png?v=1.0.0%2B497d8d48d54c79041032ae681e92e691&key=YOUR-API-KEY',
     texture: 'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg',
     wireframe: false,
-    color: [255, 255, 255],
+    material: false,
+    color: [211,211,211],
     pickable: false,
-    opacity: 0.5
+    opacity: 0.1
   });
 
   const tile3DLayer = new Tile3DLayer({
     id: 'tile-3d-layer',
-    pointSize: 1,
     data: 'https://raw.githubusercontent.com/naogify/silhouette-guessr/main/public/tile3d/tileset.json',
     loader: Tiles3DLoader,
-    pickable: true,
-    opacity: 0.8
+    loadOptions: {
+      tileset: {
+        throttleRequests: true,
+        maxRequests: 500,
+        maximumMemoryUsage: 600,
+        viewDistanceScale: 0.5,
+        updateTransforms: false,
+        loadTiles: false
+      },
+    },
+    color: [255,255,255],
+    pickable: false,
+    opacity: 0.6
   })
 
   return (
@@ -166,21 +126,17 @@ function App() {
       ></div>
       <Button
         id="guess-btn"
-        onClick={()=> calculateDistance(initialLngLat, guessedLngLat)}
+        onClick={()=> calculateDistance(initialLngLat, guessedLngLat, mapNode, scoreDiv)}
         variant="primary"
       >Guess</Button>
+      <Button
+        className="return-start-btn"
+        onClick={goToStart}
+      >Return to Start</Button>
       <DeckGL
         views={view}
         mapStyle={'geolonia/gsi'}
-        initialViewState={{
-          longitude: initialLngLat.lng,
-          latitude: initialLngLat.lat,
-          pitch: 0,
-          bearing: 0,
-          maxPitch: 0,
-          minPitch: 0,
-          position: [0, 0, 100]
-        }}
+        initialViewState={initialViewState}
         controller={true}
         layers={[terrainLayer, tile3DLayer]}
       />
