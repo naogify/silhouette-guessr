@@ -76,6 +76,9 @@ function App() {
       }, 
   }});
 
+  /**
+   * このサンプルで使用しているDEMタイルは無料で使っていただいても問題ありませんが、まだテスト中のため予告なく仕様変更されたり、削除されたりする可能性がありますので、あらかじめご了承ください。
+   */
   const terrainLayer = new TerrainLayer({
     id: "terrain",
     minZoom: 0,
