@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/silhouette-guessr/static/css/main.fcea5a43.chunk.css",
-    "main.js": "/silhouette-guessr/static/js/main.07b20935.chunk.js",
-    "main.js.map": "/silhouette-guessr/static/js/main.07b20935.chunk.js.map",
-    "runtime-main.js": "/silhouette-guessr/static/js/runtime-main.84db2917.js",
-    "runtime-main.js.map": "/silhouette-guessr/static/js/runtime-main.84db2917.js.map",
+    "main.css": "/silhouette-guessr/static/css/main.f995b6f5.chunk.css",
+    "main.js": "/silhouette-guessr/static/js/main.5c1ca82b.chunk.js",
+    "main.js.map": "/silhouette-guessr/static/js/main.5c1ca82b.chunk.js.map",
+    "runtime-main.js": "/silhouette-guessr/static/js/runtime-main.12ae99ce.js",
+    "runtime-main.js.map": "/silhouette-guessr/static/js/runtime-main.12ae99ce.js.map",
     "static/css/2.4c97ca4f.chunk.css": "/silhouette-guessr/static/css/2.4c97ca4f.chunk.css",
-    "static/js/2.e05ced90.chunk.js": "/silhouette-guessr/static/js/2.e05ced90.chunk.js",
-    "static/js/2.e05ced90.chunk.js.map": "/silhouette-guessr/static/js/2.e05ced90.chunk.js.map",
-    "static/js/3.83803f5a.chunk.js": "/silhouette-guessr/static/js/3.83803f5a.chunk.js",
-    "static/js/3.83803f5a.chunk.js.map": "/silhouette-guessr/static/js/3.83803f5a.chunk.js.map",
+    "static/js/2.bc7c914b.chunk.js": "/silhouette-guessr/static/js/2.bc7c914b.chunk.js",
+    "static/js/2.bc7c914b.chunk.js.map": "/silhouette-guessr/static/js/2.bc7c914b.chunk.js.map",
+    "static/js/3.967c4fb0.chunk.js": "/silhouette-guessr/static/js/3.967c4fb0.chunk.js",
+    "static/js/3.967c4fb0.chunk.js.map": "/silhouette-guessr/static/js/3.967c4fb0.chunk.js.map",
     "index.html": "/silhouette-guessr/index.html",
     "static/css/2.4c97ca4f.chunk.css.map": "/silhouette-guessr/static/css/2.4c97ca4f.chunk.css.map",
-    "static/css/main.fcea5a43.chunk.css.map": "/silhouette-guessr/static/css/main.fcea5a43.chunk.css.map",
-    "static/js/2.e05ced90.chunk.js.LICENSE.txt": "/silhouette-guessr/static/js/2.e05ced90.chunk.js.LICENSE.txt"
+    "static/css/main.f995b6f5.chunk.css.map": "/silhouette-guessr/static/css/main.f995b6f5.chunk.css.map",
+    "static/js/2.bc7c914b.chunk.js.LICENSE.txt": "/silhouette-guessr/static/js/2.bc7c914b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.84db2917.js",
+    "static/js/runtime-main.12ae99ce.js",
     "static/css/2.4c97ca4f.chunk.css",
-    "static/js/2.e05ced90.chunk.js",
-    "static/css/main.fcea5a43.chunk.css",
-    "static/js/main.07b20935.chunk.js"
+    "static/js/2.bc7c914b.chunk.js",
+    "static/css/main.f995b6f5.chunk.css",
+    "static/js/main.5c1ca82b.chunk.js"
   ]
 }
